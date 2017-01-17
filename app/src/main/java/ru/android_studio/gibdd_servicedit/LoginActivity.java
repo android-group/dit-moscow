@@ -15,8 +15,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private String uri = "http://api.pub.emp.msk.ru:8081/json/v10.0/citizens/auth/loginbymsisdn";
     private String token = "";
-    private String msisdn = "79777328501";
-    private String password = "112358";
+    private String msisdn = "";
+    private String password = "";
     private String result = "";
 
     @Override
