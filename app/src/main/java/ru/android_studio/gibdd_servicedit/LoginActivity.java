@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +40,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin: {
                 final JSONObject jsonObject = new JSONObject();
                 try {
+                    TextView tvMsisdn = (TextView) findViewById(R.id.phoneLogin);
+                    TextView tvPassword = (TextView) findViewById(R.id.passwordLogin);
                     jsonObject.put("token", token);
-                    jsonObject.put("msisdn", msisdn);
-                    jsonObject.put("password", password);
+                    jsonObject.put("msisdn", tvMsisdn.getText());
+                    jsonObject.put("password", tvPassword.getText());
                     new Thread( () -> {
                         RestTemplate restTemplate = new RestTemplate();
                         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
