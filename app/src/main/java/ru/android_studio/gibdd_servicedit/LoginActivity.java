@@ -9,16 +9,11 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String uri = "http://api.pub.emp.msk.ru:8081/json/v10.0/citizens/auth/loginbymsisdn";
-    private String token = "";
-    private String msisdn = "";
-    private String password = "";
-    private String result = "";
+    private String token = "5b25aa910a975eda16dc66dbfca86b86";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        result = "";
+        RequestResult.INSTANCE.refreshResult();
     }
 
     @Override
@@ -45,16 +40,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     jsonObject.put("token", token);
                     jsonObject.put("msisdn", tvMsisdn.getText());
                     jsonObject.put("password", tvPassword.getText());
-                    new Thread( () -> {
-                        RestTemplate restTemplate = new RestTemplate();
-                        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-                        setResult(restTemplate.getForObject(uri, String.class, jsonObject));
-                    }).start();
-                    while (result.equals("")) {
-                        Thread.currentThread().sleep(100);
-                    }
+                    RestPost rest = new RestPost(uri, String.class, jsonObject);
+                    rest.start();
+                    rest.join();
                     Intent intent = new Intent(this, BetaResultActivity.class);
-                    intent.putExtra("result", result);
+                    intent.putExtra("result", RequestResult.INSTANCE.jsonResult);
                     startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -65,10 +55,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }break;
         }
     }
-
-    public void setResult(String s) {
-        this.result = s;
-    }
-
 
 }
