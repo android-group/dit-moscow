@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String uri = "http://api.pub.emp.msk.ru:8081/json/v10.0/citizens/auth/loginbymsisdn";
-    private String token = "5b25aa910a975eda16dc66dbfca86b86";
+    private String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
