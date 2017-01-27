@@ -20,6 +20,7 @@ package ru.android_studio.gibdd_servicedit;
 
 public enum RequestResult {
     INSTANCE;
+
     public String jsonResult = "";
 
     public void refreshResult() {
